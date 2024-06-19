@@ -21,6 +21,8 @@ export async function POST(request, response) {
     const format = ytdl.chooseFormat(info.formats, {
       quality: "highest",
     });
+
+    requestHeader.set("Content-Type", "application/octet-stream");
     requestHeader.set(
       "Content-Disposition",
       `attachment; filename="${info.videoDetails.title}.mp4"`

@@ -19,19 +19,31 @@ export default function Home() {
         url: URL,
       });
       setTitle(result.data.data.title);
-      setImage(result.data.data.thumbnails[0].url);
-      
+      setImage(result.data.data.thumbnails[1].url);
+      const duration = formatDuration(result.data.data.lengthSeconds);
+      setDuration(duration);
     } catch (error) {
-      throw error
-      
+      throw error;
     }
   }
 
-  useEffect(()=>{
+  useEffect(() => {
+    setImage("");
+    setTitle("");
+    setDuration("");
+  }, [URL]);
 
-    setImage("")
-    setTitle("")
-  },[URL])
+  function formatDuration(sec) {
+    const hours = Math.floor(sec / 3600);
+    const minutes = Math.floor((sec % 3600) / 60);
+    const secs = sec % 60;
+    return [hours, minutes, secs]
+      .map((data) => {
+        return data < 10 ? "0" + data : data;
+      })
+      .filter((data, index) => data !== "00" || index > 0)
+      .join(":");
+  }
   return (
     <div className="max-w-4xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
       <div className="space-y-6">
@@ -73,7 +85,7 @@ export default function Home() {
             </div>
           </div>
         </form>
-        { URL && title && image ? (
+        {URL && title && image ? (
           <div className="bg-white dark:bg-gray-900 rounded-lg shadow-md p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="flex items-start">
               <div className="flex-shrink-0">
@@ -82,6 +94,9 @@ export default function Home() {
               <div className="ml-4">
                 <h3 className="text-md font-medium text-gray-900 dark:text-gray-100">
                   {title}
+                </h3>
+                <h3 className="text-md font-medium text-gray-900 dark:text-gray-100">
+                  Duration: {Duration}
                 </h3>
 
                 <button
