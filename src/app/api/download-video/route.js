@@ -1,7 +1,8 @@
 import { url } from "inspector";
 import { NextRequest, NextResponse } from "next/server";
 import ytdl, { validateURL } from "ytdl-core";
-
+import fs from "fs";
+import path from "path";
 export async function POST(request, response) {
   try {
     const { Url } = await request.json();
@@ -15,17 +16,18 @@ export async function POST(request, response) {
     const format = ytdl.chooseFormat(info.formats, {
       quality: "highest",
     });
+    const title = info.videoDetails.title;
+    // const videoPath = path.join( "temp", `${title}.mp4`); // Specify the path to save the video
+    const videoWriteStream = fs.createWriteStream(`${title}`); //create the writestream
+    ytdl(Url, format).pipe(videoWriteStream);
 
-    const requestHeader = new Headers();
-    requestHeader.set("Content-Type", "application/octet-stream");
-    requestHeader.set(
-      "Content-Disposition",
-      `attachment; filename="${info.videoDetails.title}.mp4"`
-    );
-    const stream = ytdl(url, { format: format }).pipe(request);
-
-    return NextResponse.json(stream, { requestHeader });
+    videoWriteStream.on("finish", () => {
+      request.download(videoPath, `${title}.mp4`, () => {
+        fs.unlinkSync(videoPath);
+      });
+    });
+    return NextResponse.json({ status: 200, message: "done" });
   } catch (error) {
-    return NextResponse.json({ status: 500, message: error });
+    console.log(error)
   }
 }
