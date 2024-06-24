@@ -46,12 +46,36 @@ export default function Home() {
       .join(":");
   }
 
-  async function DownloadVideo() {
-    const result = await axios.post("/api/download-video", {
-      Url: URL,
-    });
-    console.log(result);
+  async function DownloadVideo(e) {
+    e.preventDefault();
+      const response = await fetch('/api/download-video', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ Url: URL }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message);
+      }
+
+      const blob = await response.blob();
+      console.log(blob)
+      const downloadUrl = URL.createObjectURL(blob);
+      console.log(downloadUrl)
+      const a = document.createElement('a');
+      a.href = downloadUrl;
+      const contentDisposition = response.headers.get('Content-Disposition');
+      const fileName = contentDisposition.split('filename=')[1].replace(/"/g, '');
+      a.download = fileName || 'video.mp4'; // Set the desired file name
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+
   }
+
   return (
     <div className="max-w-4xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
       <div className="space-y-6">
