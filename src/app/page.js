@@ -4,12 +4,14 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Link from "next/link";
 
 export default function Home() {
   const [URL, setUrl] = useState("");
   const [title, setTitle] = useState("");
   const [image, setImage] = useState("");
   const [Duration, setDuration] = useState("");
+  const [downloadableUrl, setDownloadableUrl] = useState("");
 
   async function GetInfo(e) {
     e.preventDefault();
@@ -23,6 +25,7 @@ export default function Home() {
       setImage(result.data.thumbnail);
       const duration = formatDuration(result.data.duration);
       setDuration(duration);
+      setDownloadableUrl(result.data.downloadUrl);
     } catch (error) {
       throw error;
     }
@@ -32,6 +35,7 @@ export default function Home() {
     setImage("");
     setTitle("");
     setDuration("");
+    setDownloadableUrl("");
   }, [URL]);
 
   function formatDuration(sec) {
@@ -44,36 +48,6 @@ export default function Home() {
       })
       .filter((data, index) => data !== "00" || index > 0)
       .join(":");
-  }
-
-  async function DownloadVideo(e) {
-    e.preventDefault();
-      const response = await fetch('/api/download-video', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ Url: URL }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message);
-      }
-
-      const blob = await response.blob();
-      console.log(blob)
-      const downloadUrl = URL.createObjectURL(blob);
-      console.log(downloadUrl)
-      const a = document.createElement('a');
-      a.href = downloadUrl;
-      const contentDisposition = response.headers.get('Content-Disposition');
-      const fileName = contentDisposition.split('filename=')[1].replace(/"/g, '');
-      a.download = fileName || 'video.mp4'; // Set the desired file name
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-
   }
 
   return (
@@ -131,13 +105,14 @@ export default function Home() {
                   Duration: {Duration}
                 </h3>
 
-                <button
-                  onClick={DownloadVideo}
-                  type="button"
+                <Link
+                href={downloadableUrl}
+                
                   className="mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-black hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 dark:bg-primary-500 dark:hover:bg-primary-600"
                 >
-                  Download
-                </button>
+
+                  Download video
+                </Link>
               </div>
             </div>
           </div>

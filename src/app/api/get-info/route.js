@@ -15,12 +15,16 @@ export async function POST(request, response) {
 
     const info = await ytdl.getInfo(url);
     const data = info.videoDetails;
+    const format = ytdl.chooseFormat(info.formats, {
+      quality: "highest",
+    });
 
     return NextResponse.json({
       status: 200,
       title: data.title,
       thumbnail: data.thumbnails[0].url,
       duration: data.lengthSeconds,
+      downloadUrl:format.url
     });
   } catch (error) {
     throw error;
