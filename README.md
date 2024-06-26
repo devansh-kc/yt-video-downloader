@@ -35,8 +35,7 @@ To run this project locally, follow these steps:
 Usage
 
 1. Enter the URL of the YouTube video you want to download.
-2. Select the desired format and resolution.
-3. Click the "Download" button to start downloading the video.
+2. Click the "Download" button to start downloading the video.
 
 
 ---
