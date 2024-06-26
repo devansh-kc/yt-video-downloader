@@ -20,7 +20,6 @@ export default function Home() {
       const result = await axios.post("/api/get-info", {
         url: URL,
       });
-      console.log(result);
       setTitle(result.data.title);
       setImage(result.data.thumbnail);
       const duration = formatDuration(result.data.duration);
