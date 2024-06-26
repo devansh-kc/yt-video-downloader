@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# YouTube Video Downloader
 
-## Getting Started
+This is a YouTube Video Downloader application built with Next.js, React, Tailwind CSS, and ytdl-core. It allows users to download YouTube videos by simply entering the video URL.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Download YouTube videos in various formats and resolutions
+- Fast and efficient video processing using ytdl-core
+- Responsive design with Tailwind CSS
+- User-friendly interface
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Technologies Used
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+- **Next.js**: A React framework for server-side rendering and static site generation
+- **React**: A JavaScript library for building user interfaces
+- **Tailwind CSS**: A utility-first CSS framework for rapidly building custom designs
+- **ytdl-core**: A YouTube video downloader for Node.js
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Installation
 
-## Learn More
+To run this project locally, follow these steps:
 
-To learn more about Next.js, take a look at the following resources:
+1. Clone the repository:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   ```bash
+   git clone https://github.com/devansh-kc/yt-video-downloader.git
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+   ```
 
-## Deploy on Vercel
+2. cd yt-video-downloader
+3. npm install
+4. npm run dev
+5. Open your browser and navigate to http://localhost:3000
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Usage
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+1. Enter the URL of the YouTube video you want to download.
+2. Select the desired format and resolution.
+3. Click the "Download" button to start downloading the video.
+
+
+---
+
+# Contributing
+
+Contributions are welcome! If you find any issues or have suggestions for improvements, please open an issue or create a pull request.
